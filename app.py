@@ -7,6 +7,7 @@ slite = Bottle()
 # 常量
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__)).replace('\\', '/')
 DICT_NAME = 'index.json'
+PORT = 5000
 
 # 资源目录
 @slite.get('/static/<project>/<filepath:path>')
@@ -14,14 +15,15 @@ def server_static(project, filepath):
     root = '%s/projects/%s/assets/' % (ROOT_PATH, project)
     return static_file(filepath, root=root)
 
-@slite.get('/favicon.ico')
-def show_favicon():
-    return static_file('favicon.ico', './')
-
 # 访问上传文件
 @slite.get('/upload/<filepath>')
 def server_upload(filepath):
     return static_file(filepath, root='%s/upload/' % ROOT_PATH)
+
+# 图标
+@slite.get('/favicon.ico')
+def show_favicon():
+    return static_file('favicon.ico', './')
 
 ###########################################################
 
@@ -94,21 +96,23 @@ def pages(project):
 
 # 项目某页面
 @slite.get('/<project>/<page>')
-def page(project, page='index'):
+def page(project, page):
     
     # 设定模版目录
     TEMPLATE_PATH.append('./projects/%s/pages/' % project)
+    TEMPLATE_PATH.append('./projects/%s/layouts/' % project)
     
     context = { 
+        'project': project,
+        'page': page,
+        'site': request.environ.get('HTTP_HOST'),
         'url': request.url, 
         'req': request.params
     }
     return jinja2_template(page, **context)
 
 
-
-
-run(slite, host='0.0.0.0', port=5000, debug=True, reloader=True)
+run(slite, host='0.0.0.0', port=PORT, debug=True, reloader=True)
 
 
 
