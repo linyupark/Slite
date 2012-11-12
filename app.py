@@ -83,11 +83,16 @@ def pages(project):
     pages_dir = './projects/%s/pages' % project
     page_files = os.listdir(pages_dir)
     
-    # 过滤字典文件
-    page_files.remove(DICT_NAME)
+    if DICT_NAME in page_files:
+        
+        # 过滤字典文件
+        page_files.remove(DICT_NAME)
+        
+        # 文件名转中文字典文件载入
+        dict_json = json.load(open('%s/%s' %  (pages_dir, DICT_NAME)))
     
-    # 文件名转中文字典文件载入
-    dict_json = json.load(open('%s/%s' %  (pages_dir, DICT_NAME)))
+    else:
+        dict_json = { "pages_index": {} }
     
     return jinja2_template('app.html',
                            project=project,
@@ -105,9 +110,10 @@ def page(project, page):
     context = { 
         'project': project,
         'page': page,
-        'site': request.environ.get('HTTP_HOST'),
+        'site': 'http://%s' % request.environ.get('HTTP_HOST'),
         'url': request.url, 
-        'req': request.params
+        'req': request.params,
+        'base': '/%s/' % project
     }
     return jinja2_template(page, **context)
 
