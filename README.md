@@ -31,6 +31,8 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 					|-css
 					|-img
 					|-...
+					|-logo.png		# 用于显示在列表展示用的LOGO图片
+				|-layout			# 布局文件
 				|-pages				# 页面存放目录 通过 /项目名/文件名 来访问
 					|-index.json	# 文件名跟中文名显示字典
 					|-index.html		
@@ -47,4 +49,58 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 		{{ site }}					# 包含http的主机地址
 		{{ project }}				# 项目名称
 		{{ page }}					# 当前页面名称
+		
+		
+		
+创建一个前端展示项目的步骤
+--------------------------
+1. 在 **projects** 目录下放置好如上面类似的目录结构
+2. 在 **layouts** 目录下创建一个基础布局文件，内容类似：
+
+		<!DOCTYPE html>
+		<html>
+		    <head>
+		        <meta charset="utf-8">
+		        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		        <title>{% block title %}{% endblock %}</title>
+		        <meta name="description" content="">
+		        <meta name="viewport" content="width=device-width">
+		        <link rel="stylesheet" href="{{ site }}/static/Example/css/normalize.css">
+		        <link rel="stylesheet" href="{{ site }}/static/Example/css/main.css">
+		        <script src="{{ site }}/static/Example/js/vendor/jquery-1.8.2.min.js"></script>
+		        <script src="{{ site }}/static/Example/js/vendor/modernizr-2.6.2.min.js"></script>
+		    </head>
+		    <body>
+		        {% block body %}
+		        {% endblock %}
+		    </body>
+		</html>
+
+提示：{% block ??? %}{% endblock %} 是ninja2的内容填充区块标识符
+3. 在 **pages** 下创建一个展示页面，可以继承 layouts 里的某个布局文件，内容类似：
+
+		{% extends 'base.html' %}
+		
+		{% block title %}测试首页{% endblock %}
+		
+		{% block body %}
+		Hello Slite Example!
+		{% endblock %}
+
+4. 讲js 跟图片等资源放置在 assets目录下，并通过 **{{ site }}**/static/**项目目录名**/**资源目录名**/文件名 来指向。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
