@@ -1,6 +1,95 @@
 $ = this.jQuery
 
 ###
+基础类
+###
+class Base
+    
+    settings = 
+        debug: no
+    
+    constructor: (options)->
+        settings = $.extend settings, options
+    
+    _log: (msg)-> 
+        console.log msg if console? and settings.debug is yes
+        
+    _createEleById: (id, tag, attrs={})->
+        el = $("##{id}")
+        if el.length is 0
+            el = $("<#{tag} id='#{id}' />")
+            el.attr attrs
+        return el
+        
+    _int: (mixed)-> parseInt mixed, 10
+
+###
+简单弹窗
+###
+class Pop extends Base
+    
+    settings =
+        id: 'simplepop'
+        wrapcolor: '#666'
+        styles: 
+            position: 'absolute'
+            zIndex: 8080
+            width: '300px'
+            height: '180px'
+            display: 'hidden'
+        keep: 0                      # 弹窗维持时间, 0 则不会自动关闭
+    
+    $pop = null
+    $wrap = null
+    
+    constructor: (options)->
+        super(options)
+        
+        $pop = @_createEleById(settings.id, 'div').css(settings.styles).css
+            left: @getWidth()/2 - (@_int settings.styles.width)/2
+            top: @getHeight()/2 - (@_int settings.styles.height)/2
+        
+        $wrap = @_createEleById("#{settings.id}_wrap", 'div').css
+            position: 'absolute'
+            display: 'none'
+            zIndex: settings.styles.zIndex-1
+            background: settings.wrapcolor
+            opacity: 0.8
+            height: "#{@getHeight()}px"
+            width: "#{@getWidth()}px"
+        .on 'click', @close
+        
+        $('body').append($pop)
+        $('body').append($wrap)
+    
+    getWidth: -> @_int $(window).width()
+    getHeight: -> @_int $(window).height()
+    
+    getPop: -> $pop
+    getWrap: -> $wrap
+    getSettings: -> settings
+    
+    setBtns: (btns=['确定','取消'], events=[null,null])->
+        for name, i in btns
+            try
+                btn = $("<button class='btn_#{i}'>#{name}</button>").on 'click', events[i]
+                $pop.append btn
+            catch e
+                @_log e.message
+
+    open: (msg)->
+        $pop.append "<p>#{msg}</p>"
+        $wrap.fadeIn()
+        $pop.fadeIn()
+        
+    close: (time=settings.keep)->
+        setTimeout ->
+            $pop.fadeOut()
+            $wrap.remove()
+        , time
+        
+
+###
 图片自动缩放
 ###
 imgResize = ($container, options)->
