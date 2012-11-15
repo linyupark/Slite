@@ -5,7 +5,7 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 
 安装、运行
 ---------------
-1. 安装Python环境
+1. 安装Python环境，（注意要设置环境变量）
 2. 下载压缩包解压后运行:
 		
 
@@ -18,7 +18,6 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 		PORT=5000
 
 		
-
 使用过程中目录结构介绍
 ----------------------		
 创建一个项目目录，放置于projects目录下，务必使用英文，如 Example
@@ -30,6 +29,7 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 					|-js
 					|-css
 					|-img
+					|-less          # 如需要less则将文件放入此文件夹，生成指定less文件需在url中加入query请求less=文件名（不要.less后缀）
 					|-...
 					|-logo.png		# 用于显示在列表展示用的LOGO图片
 				|-layout			# 布局文件
@@ -39,7 +39,6 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 					|-....
 
 					
-
 页面使用了jinja2模版引擎，一些语法可见：[官方文档](http://jinja.pocoo.org/docs/templates/)
 默认绑定的一些模版变量有如下：
 
@@ -77,6 +76,7 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 		</html>
 
 提示：{% block ??? %}{% endblock %} 是ninja2的内容填充区块标识符
+
 3. 在 **pages** 下创建一个展示页面，可以继承 layouts 里的某个布局文件，内容类似：
 
 		{% extends 'base.html' %}
@@ -87,10 +87,17 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 		Hello Slite Example!
 		{% endblock %}
 
-4. 讲js 跟图片等资源放置在 assets目录下，并通过 **{{ site }}**/static/**项目目录名**/**资源目录名**/文件名 来指向。
+4. 讲js 跟图片等资源放置在 assets目录下，并通过 **{{ site }}**/static/ __项目目录名__ / __资源目录名__ /文件名 来指向。
 
 
+如何让less文件生成为css文件
+--------------------------
+如在less目录下有一 **test.less** 文件，则在页面地址中加入：
 
+        http://.........html?less=test
+        
+        
+则会自动在 **assets/css** 下生成 **test.css** 文件
 
 
 

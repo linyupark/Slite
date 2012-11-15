@@ -2,6 +2,10 @@
 from bottle import Bottle, jinja2_template, run, TEMPLATE_PATH, request, static_file
 import json, os, time
 
+# lesscss
+from lesscss.lessc import compile
+from lesscss.contrib import console
+
 slite = Bottle()
 
 # 常量
@@ -107,6 +111,19 @@ def page(project, page):
     TEMPLATE_PATH.append('./projects/%s/pages/' % project)
     TEMPLATE_PATH.append('./projects/%s/layouts/' % project)
     
+    # less生成css
+    less = request.params.get('less')
+    less_file = '%s/projects/%s/assets/less/%s.less' % (ROOT_PATH, project, less)
+    css_file = '%s/projects/%s/assets/css/%s.css' % (ROOT_PATH, project, less)
+    if less and os.path.isfile(less_file):
+        print u'生成css!'
+        try:
+            less_source = open(less_file)
+            output = console.Writer(open(css_file, 'w'))
+            output.write(compile(less_source.read()))
+        except Exception, e:
+            print e
+
     context = { 
         'project': project,
         'page': page,

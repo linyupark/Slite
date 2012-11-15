@@ -5,14 +5,15 @@ $ = this.jQuery
 ###
 class Base
     
-    settings = 
-        debug: no
+    _global: {}
     
-    constructor: (options)->
-        settings = $.extend settings, options
+    _settings: (defaults, options)->
+        if defaults? and options?
+            @_global.settings = $.extend defaults, options
+        @_global.settings
     
     _log: (msg)-> 
-        console.log msg if console? and settings.debug is yes
+        console.log msg if @_global.settings?.debug is yes
         
     _createEleById: (id, tag, attrs={})->
         el = $("##{id}")
@@ -43,7 +44,7 @@ class Pop extends Base
     $wrap = null
     
     constructor: (options)->
-        super(options)
+        settings = @_settings settings, options
         
         $pop = @_createEleById(settings.id, 'div').css(settings.styles).css
             left: @getWidth()/2 - (@_int settings.styles.width)/2
@@ -67,7 +68,6 @@ class Pop extends Base
     
     getPop: -> $pop
     getWrap: -> $wrap
-    getSettings: -> settings
     
     setBtns: (btns=['确定','取消'], events=[null,null])->
         for name, i in btns
