@@ -113,9 +113,9 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 
 模拟ajax请求
 -----------
-请求地址：__/_ajax/html__ 或者 __/_ajax/json__ (html,json为格式)
-注意：在发送请求的时候传递 __resp__ 数据
-返回：__resp__ 发送了什么数据就会返回相同数据
+请求地址：/_ajax/html 或者 /_ajax/json (html,json为格式)
+注意：在发送请求的时候传递 resp 数据
+返回：resp 发送了什么数据就会返回相同数据
 比如
 
         $.get('/_ajax/html', {resp: '<h1>标题</h1>'}, function(resp){ alert(resp); });
