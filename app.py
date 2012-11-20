@@ -19,6 +19,11 @@ def server_static(project, filepath):
     root = '%s/projects/%s/assets/' % (ROOT_PATH, project)
     return static_file(filepath, root=root)
 
+@slite.get('/_static/<filepath:path>')
+def server_app(filepath):
+    root = '%s/app/' % ROOT_PATH
+    return static_file(filepath, root=root)
+
 # 访问上传文件
 @slite.get('/upload/<filepath>')
 def server_upload(filepath):
@@ -76,7 +81,7 @@ def projects():
     # 项目目录列表
     project_dirs = os.listdir('./projects')
     
-    return jinja2_template('app.html',
+    return jinja2_template('app/app.html',
                            projects=project_dirs)
 
 # 项目页面列表
@@ -98,7 +103,7 @@ def pages(project):
     else:
         dict_json = { "pages_index": {} }
     
-    return jinja2_template('app.html',
+    return jinja2_template('app/app.html',
                            project=project,
                            pages=page_files,
                            **dict_json)

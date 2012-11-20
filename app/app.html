@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width" />
+        <title>Slite FED Platform | Rebuilt For TCG</title>
+        <meta name="description" content="">
+        <meta name="author" content="linyu@eetop.com">
+        <link rel="stylesheet" href="/_static/stylesheets/foundation.min.css">
+        <link rel="stylesheet" href="/_static/stylesheets/app.css">
+        <script src="/_static/javascripts/modernizr.foundation.js"></script>
+        <!-- IE Fix for HTML5 Tags -->
+      <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <![endif]-->
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">您目前使用的浏览器已经 <strong>过期</strong>. 请 <a href="http://browsehappy.com/">升级浏览器</a> 或 <a href="http://www.google.com/chromeframe/?redirect=true">激活 Google Chrome 框架</a> 改善体验.</p>
+        <![endif]-->
+        
+        <div class="row">
+            <div class="twelve columns">
+              <h2><a href="/">Slite FED Platform</a> {{ project }}</h2>
+              <p>FED项目展示平台，下载地址：<a href="https://github.com/linyupark/Slite">on github</a></p>
+              <hr />
+            </div>
+          </div>
+		
+		<div class="row">
+        <div class="eleven-up columns centered">
+		{% if projects %}
+        <ul id="projects" class="block-grid four-up mobile-five-up text-center">
+        	{% for p in projects %}
+        	<li><a href="/{{ p }}"><img src="/static/{{ p }}/logo.png" style="height: 80px;" /><br />{{ p }}</a></li>
+        	{% endfor %}
+        </ul>
+        {% endif %}
+        
+        {% if pages %}
+        <ul id="pages" class="square">
+        	{% for p in pages %}
+        	<li><a href="/{{ project }}/{{ p }}">{{ p }}</a> - {{ pages_index[p] }}</li>
+        	{% else %}
+        	<li><a href="/">尚无任何展示页面</a></li>
+        	{% endfor %}
+        </ul>
+        {% endif %}
+        </div>
+        </div>
+        
+        <!-- Included JS Files (Compressed) -->
+          <script src="/_static/javascripts/jquery.js"></script>
+          <script src="/_static/javascripts/foundation.min.js"></script>
+          
+          <!-- Initialize JS Plugins -->
+          <script src="/_static/javascripts/app.js"></script>
+    </body>
+</html>
