@@ -1,5 +1,6 @@
 {
 	"pages_index": {
-		"index.html": "首页"
+		"upload.html": "上传测试",
+		"seajs.html": "seajs"
 	}
 }
