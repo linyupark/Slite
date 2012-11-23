@@ -11,10 +11,11 @@ slite = Bottle()
 # 常量
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__)).replace('\\', '/')
 DICT_NAME = 'index.json'
+ASSET_NAME = 'static'
 PORT = 5000
 
 # 资源目录
-@slite.get('/static/<project>/<filepath:path>')
+@slite.get('/%s/<project>/<filepath:path>' % ASSET_NAME)
 def server_static(project, filepath):
     root = '%s/projects/%s/assets/' % (ROOT_PATH, project)
     return static_file(filepath, root=root)
@@ -129,18 +130,20 @@ def page(project, page):
         except Exception, e:
             print e
 
+    site = 'http://%s' % request.environ.get('HTTP_HOST')
     context = { 
         'project': project,
         'page': page,
-        'site': 'http://%s' % request.environ.get('HTTP_HOST'),
+        'site': site,
         'url': request.url, 
         'req': request.params,
-        'base': '/%s/' % project
+        'base': '/%s/' % project,
+        'static': '%s/%s/%s/' % (site, ASSET_NAME, project)
     }
     return jinja2_template(page, **context)
 
 
-run(slite, host='0.0.0.0', port=PORT, debug=True, reloader=True)
+run(slite, host='0.0.0.0', port=PORT, reloader=True)
 
 
 
