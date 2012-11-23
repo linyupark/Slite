@@ -48,6 +48,8 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 		{{ site }}					# 包含http的主机地址
 		{{ project }}				# 项目名称
 		{{ page }}					# 当前页面名称
+		{{ base }}  				# (eg: /Example/)
+		{{ static }}  				# 静态目录完整url地址
 		
 		
 		
@@ -87,7 +89,7 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 		Hello Slite Example!
 		{% endblock %}
 
-4. 讲js 跟图片等资源放置在 assets目录下，并通过 **{{ site }}**/static/ __项目目录名__ / __资源目录名__ /文件名 来指向。
+4. 讲js 跟图片等资源放置在 assets目录下，并通过 {{ site }}/static/项目目录名/资源目录名/文件名 来指向。
 
 
 如何让less文件生成为css文件
@@ -102,7 +104,7 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 
 使用上传功能
 ------------
-请求地址：__/_upload__
+请求地址：/_upload
 返回数据的格式：
 
         {
@@ -120,6 +122,8 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 
         $.get('/_ajax/html', {resp: '<h1>标题</h1>'}, function(resp){ alert(resp); });
 
-
+修改静态文件路径显示
+--------------------
+修改app.py中的ASSET_NAME值
 
 
