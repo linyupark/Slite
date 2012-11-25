@@ -13,8 +13,10 @@
 
 {% block bottom_js %}
 <script type="text/javascript">
-    seajs.use(['{{ static }}js/main', 'jquery'], function(main, $){
+	modules = ['{{ static }}js/main', 'jquery', '{{ static }}coffee/string.coffee'];
+    seajs.use(modules, function(main, $, Str){
         $('#json').load('{{ site }}/_ajax/json', { resp: '{ "username": "林小雨" }'});
+        console.log('run in page:'+Str.lastChar('123456'));
     });
 </script>
 {% endblock %}
