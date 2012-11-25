@@ -2,10 +2,6 @@
 from bottle import Bottle, jinja2_template, run, TEMPLATE_PATH, request, static_file
 import json, os, time
 
-# lesscss
-from lesscss.lessc import compile
-from lesscss.contrib import console
-
 slite = Bottle()
 
 # 常量

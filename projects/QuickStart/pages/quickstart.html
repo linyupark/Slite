@@ -1,0 +1,20 @@
+{% extends "_base" %}
+
+{% block body %}
+<h1>模拟上传</h1>
+<form action="{{ site }}/_upload" method="post" enctype="multipart/form-data">
+  <input type="file" name="data" />
+  <input type="submit" value="upload" />
+</form>
+
+<h1>模拟Ajax请求</h1>
+<div id="json"></div>
+{% endblock %}
+
+{% block bottom_js %}
+<script type="text/javascript">
+    seajs.use(['{{ static }}js/main', 'jquery'], function(main, $){
+        $('#json').load('{{ site }}/_ajax/json', { resp: '{ "username": "林小雨" }'});
+    });
+</script>
+{% endblock %}

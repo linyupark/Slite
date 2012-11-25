@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}{% endblock %}</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <script src="{{ static }}vendor/sea/sea.js"></script>
+        <script type="text/javascript">
+        seajs.config({
+            alias: {
+                'jquery': '{{ static }}vendor/sea/jquery',
+                'coffee': '{{ static }}vendor/sea/coffee',
+                'less': '{{ static }}vendor/sea/less'
+            },
+            preload: [
+                'plugin-coffee',
+                'plugin-less'
+            ]
+        });
+        </script>
+        <!--[if lt IE 9]><script src="{{ static }}vendor/html5.js"></script><![endif]-->
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <!--[if lt IE 7]><![endif]-->
+        {% block body %}{% endblock %}
+        {% block bottom_js %}{% endblock %}
+    </body>
+</html>

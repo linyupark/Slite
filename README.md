@@ -24,17 +24,31 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 
 		
 		-projects
-			|- Example      		# 项目目录
-				|-assets			# 静态资源目录 可通过 /static/项目名/文件名 来访问到
+			|- Example      				# 项目目录
+				|-assets					# 静态资源目录 可通过 /static/项目名/文件名 来访问到
+					|-vendor				# 一些第三方类库
+						|-sea 				# SeaJS框架（推荐使用）
+						|-html5.js 			# 兼容html5
+						|-...
 					|-js
 					|-css
 					|-img
-					|-less          # 如需要less则将文件放入此文件夹，生成指定less文件需在url中加入query请求less=文件名（不要.less后缀）
+					|-less
+						|-base
+							|-class.less 	# 常用css class
+							|-mixin.less 	# 常用函数
+							|-reset.less
+						|-element
+							|-button.less 	# 项目通用按钮样式
+							|-form.less 
+							|...
+						|-pages 			# 具体某页面的样式定义
+						|-main.less			# less 引入文件
 					|-...
-					|-logo.png		# 用于显示在列表展示用的LOGO图片
-				|-layout			# 布局文件
-				|-pages				# 页面存放目录 通过 /项目名/文件名 来访问
-					|-index.json	# 文件名跟中文名显示字典
+					|-logo.png				# 用于显示在列表展示用的LOGO图片
+				|-layouts					# 布局文件
+				|-pages						# 页面存放目录 通过 /项目名/文件名 来访问
+					|-index.json			# 文件名跟中文名显示字典
 					|-index.html		
 					|-....
 
@@ -90,17 +104,6 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 		{% endblock %}
 
 4. 讲js 跟图片等资源放置在 assets目录下，并通过 {{ site }}/static/项目目录名/资源目录名/文件名 来指向。
-
-
-如何让less文件生成为css文件
---------------------------
-如在less目录下有一 **test.less** 文件，则在页面地址中加入：
-
-        http://.........html?less=test
-        
-        
-则会自动在 **assets/css** 下生成 **test.css** 文件
-
 
 使用上传功能
 ------------
