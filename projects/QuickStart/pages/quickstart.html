@@ -9,14 +9,26 @@
 
 <h1>模拟Ajax请求</h1>
 <div id="json"></div>
+
+<h1>SeaJS的text插件</h1>
+<div id="plugin-text"></div>
 {% endblock %}
 
 {% block bottom_js %}
 <script type="text/javascript">
-	modules = ['{{ static }}js/main', 'jquery', '{{ static }}coffee/string.coffee'];
-    seajs.use(modules, function(main, $, Str){
-        $('#json').load('{{ site }}/_ajax/json', { resp: '{ "username": "林小雨" }'});
-        console.log('run in page:'+Str.lastChar('123456'));
-    });
+seajs.config({
+	preload: ['plugin-text']
+});
+modules = [
+	'{{ static }}js/main', 
+	'jquery', 
+	'{{ static }}coffee/string.coffee',
+	'{{ static }}tpl/intro.tpl'
+];
+seajs.use(modules, function(main, $, Str, tpl){
+    $('#json').load('{{ site }}/_ajax/json', { resp: '{ "username": "林小雨" }'});
+    console.log('run in page:'+Str.lastChar('123456'));
+    $('#plugin-text').html(tpl);
+});
 </script>
 {% endblock %}
