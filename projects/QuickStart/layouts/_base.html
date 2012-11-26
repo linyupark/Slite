@@ -5,17 +5,19 @@
         <title>{% block title %}{% endblock %}</title>
         <meta name="description" content="">
         <meta name="keywords" content="">
-        <script src="{{ static }}vendor/sea/sea.js"></script>
+        <script src="{{ static }}js/sea/sea.js" id="seajsnode"></script>
         <script type="text/javascript">
+        ASSETS_ROOT = '{{ static }}';
         seajs.config({
             alias: {
-                'jquery': '{{ static }}vendor/jquery',
-                'coffee': '{{ static }}vendor/coffee',
-                'less': '{{ static }}vendor/less'
+                'jquery': ASSETS_ROOT + 'js/vendor/jquery',
+                'coffee': ASSETS_ROOT + 'js/vendor/coffee',
+                'less': ASSETS_ROOT + 'js/vendor/less'
             },
             preload: [
                 'plugin-coffee',
-                'plugin-less'
+                'plugin-less',
+                'plugin-text'
             ]
         });
         </script>

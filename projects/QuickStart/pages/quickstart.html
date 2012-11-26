@@ -1,5 +1,11 @@
 {% extends "_base" %}
 
+{% block head %}
+<style type="text/css">
+	body{ opacity: 0 }
+</style>
+{% endblock %}
+
 {% block body %}
 <h1>模拟上传</h1>
 <form action="{{ site }}/_upload" method="post" enctype="multipart/form-data">
@@ -16,19 +22,15 @@
 
 {% block bottom_js %}
 <script type="text/javascript">
-seajs.config({
-	preload: ['plugin-text']
-});
-modules = [
-	'{{ static }}js/main', 
-	'jquery', 
-	'{{ static }}coffee/string.coffee',
-	'{{ static }}tpl/intro.tpl'
-];
-seajs.use(modules, function(main, $, Str, tpl){
-    $('#json').load('{{ site }}/_ajax/json', { resp: '{ "username": "林小雨" }'});
-    console.log('run in page:'+Str.lastChar('123456'));
-    $('#plugin-text').html(tpl);
+// 可以额外载入css, 执行define中的接口函数，以及引入模版文件
+seajs.use([
+	'app/main', 
+	'{{ static }}tpl/intro.tpl',
+	'{{ static }}css/quickstart.css'
+], function(main, intro){
+	main.loadJson('#json', '/_ajax/json');
+	main.printText('#plugin-text', intro);
+	main.bodyFadeIn();
 });
 </script>
 {% endblock %}
