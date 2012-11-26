@@ -20,16 +20,13 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 		
 使用过程中目录结构介绍
 ----------------------		
-创建一个项目目录，放置于projects目录下，务必使用英文，如 Example
+创建一个项目目录，放置于projects目录下，务必使用英文，如 QuickStart
 
 		
 		-projects
-			|- Example      				# 项目目录
+			|- QuickStart      				# 项目目录
 				|-assets					# 静态资源目录 可通过 /static/项目名/文件名 来访问到
 					|-vendor				# 一些第三方类库
-						|-sea 				# SeaJS框架（推荐使用）
-						|-html5.js 			# 兼容html5
-						|-...
 					|-js
 					|-css
 					|-img
@@ -52,7 +49,8 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 					|-index.html		
 					|-....
 
-					
+
+目录结构可详见 **projects/QuickStart**
 页面使用了jinja2模版引擎，一些语法可见：[官方文档](http://jinja.pocoo.org/docs/templates/)
 默认绑定的一些模版变量有如下：
 
