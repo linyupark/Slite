@@ -135,12 +135,12 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 
 		{% block bottom_js %}
 		<script type="text/javascript">
-		// 可以额外载入css, 执行define中的接口函数，以及引入模版文件
 		seajs.use([
 			'app/main', // 引入 js/sea/app/main.js
-			ASSETS_ROOT + 'tpl/intro.tpl'
+			ASSETS_ROOT + 'tpl/intro.tpl' // 引入模版文件
 		], function(main, intro){
 			var words = 'hello world';
+			// 调用main.js中定义的接口
 			main.loadJson('#json', '/_ajax/json');
 			main.printText('#plugin-text', intro);
 			main.bodyFadeIn();
@@ -154,6 +154,7 @@ main.js内容如下
 
 
 		seajs.config({
+			// 别名设置（可覆盖全局）
 			alias: {
 				'less-main': ASSETS_ROOT + 'less/main.less',
 				'coffee-string': ASSETS_ROOT + 'coffee/string.coffee',
@@ -161,10 +162,12 @@ main.js内容如下
 			}
 		});
 
+		// #ID, [依赖关系]
 		define('#app/main', ['jquery', 'less-main', 'coffee-string', 'css-extra'], function(require, exports, module) {
-			require(['less-main', 'css-extra']);
+			require(['less-main', 'css-extra']);  // 分别载入less跟额外的css样式
 			var $ = require('jquery');
 			var Str = require('coffee-string');
+			// 各种开放的接口~
 			module.exports = {
 				loadJson: function(selector, url){
 					$.get(url, { resp: '{ "username": "林小雨" }'}, function(resp){
