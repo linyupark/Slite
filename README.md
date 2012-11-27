@@ -149,7 +149,42 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 		</script>
 		{% endblock %}
 
+
+main.js内容如下
+
+
+		seajs.config({
+			alias: {
+				'less-main': ASSETS_ROOT + 'less/main.less',
+				'coffee-string': ASSETS_ROOT + 'coffee/string.coffee',
+				'css-extra': ASSETS_ROOT + 'css/extra.css'
+			}
+		});
+
+		define('#app/main', ['jquery', 'less-main', 'coffee-string', 'css-extra'], function(require, exports, module) {
+			require(['less-main', 'css-extra']);
+			var $ = require('jquery');
+			var Str = require('coffee-string');
+			module.exports = {
+				loadJson: function(selector, url){
+					$.get(url, { resp: '{ "username": "林小雨" }'}, function(resp){
+						$(selector).html(resp.username);
+					});
+				},
+				bodyFadeIn: function(){
+					$('body').animate({'opacity': 1}, 1500);
+				},
+				printText: function(selector, tpl){
+					$(selector).html(tpl);
+				},
+				Str: Str
+			};
+		});
+
+
+
 4. 讲js 跟图片等资源放置在 assets目录下，并通过 {{ site }}/static/项目目录名/资源目录名/文件名 来指向。
+(static目录名称可以自定义)
 
 使用上传功能
 ------------
