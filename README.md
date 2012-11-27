@@ -26,8 +26,11 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 		-projects
 			|- QuickStart      				# 项目目录
 				|-assets					# 静态资源目录 可通过 /static/项目名/文件名 来访问到
-					|-vendor				# 一些第三方类库
 					|-js
+						|-vendor			# 一些第三方类库
+						|-sea				# SeaJS模块化开发js(推荐使用)
+							|-app 			# 项目中的各种模块放置目录
+								|-main.js 	# 推荐使用的默认seajs.use模块
 					|-css
 					|-img
 					|-less
@@ -51,6 +54,7 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 
 
 目录结构可详见 **projects/QuickStart**
+
 页面使用了jinja2模版引擎，一些语法可见：[官方文档](http://jinja.pocoo.org/docs/templates/)
 默认绑定的一些模版变量有如下：
 
@@ -74,18 +78,32 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 		<html>
 		    <head>
 		        <meta charset="utf-8">
-		        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		        <title>{% block title %}{% endblock %}</title>
 		        <meta name="description" content="">
-		        <meta name="viewport" content="width=device-width">
-		        <link rel="stylesheet" href="{{ site }}/static/Example/css/normalize.css">
-		        <link rel="stylesheet" href="{{ site }}/static/Example/css/main.css">
-		        <script src="{{ site }}/static/Example/js/vendor/jquery-1.8.2.min.js"></script>
-		        <script src="{{ site }}/static/Example/js/vendor/modernizr-2.6.2.min.js"></script>
+		        <meta name="keywords" content="">
+		        <script src="{{ static }}js/sea/sea.js" id="seajsnode"></script>
+		        <script type="text/javascript">
+		        ASSETS_ROOT = '{{ static }}';
+		        seajs.config({
+		            alias: {
+		                'jquery': ASSETS_ROOT + 'js/vendor/jquery',
+		                'coffee': ASSETS_ROOT + 'js/vendor/coffee',
+		                'less': ASSETS_ROOT + 'js/vendor/less'
+		            },
+		            preload: [
+		                'plugin-coffee',
+		                'plugin-less',
+		                'plugin-text'
+		            ]
+		        });
+		        </script>
+		        <!--[if lt IE 9]><script src="{{ static }}vendor/html5.js"></script><![endif]-->
+		        {% block head %}{% endblock %}
 		    </head>
 		    <body>
-		        {% block body %}
-		        {% endblock %}
+		        <!--[if lt IE 7]><![endif]-->
+		        {% block body %}{% endblock %}
+		        {% block bottom_js %}{% endblock %}
 		    </body>
 		</html>
 
@@ -93,12 +111,42 @@ Slite 是基于Python+Bottle+jinja2的一套简易的前端页面展示平台。
 
 3. 在 **pages** 下创建一个展示页面，可以继承 layouts 里的某个布局文件，内容类似：
 
-		{% extends 'base.html' %}
-		
-		{% block title %}测试首页{% endblock %}
-		
+		{% extends "_base" %}
+
+		{% block head %}
+		<style type="text/css">
+			body{ opacity: 0 }
+		</style>
+		{% endblock %}
+
 		{% block body %}
-		Hello Slite Example!
+		<h1>模拟上传</h1>
+		<form action="{{ site }}/_upload" method="post" enctype="multipart/form-data">
+		  <input type="file" name="data" />
+		  <input type="submit" value="upload" />
+		</form>
+
+		<h1>模拟Ajax请求</h1>
+		<div id="json"></div>
+
+		<h1>SeaJS的text插件</h1>
+		<div id="plugin-text"></div>
+		{% endblock %}
+
+		{% block bottom_js %}
+		<script type="text/javascript">
+		// 可以额外载入css, 执行define中的接口函数，以及引入模版文件
+		seajs.use([
+			'app/main', // 引入 js/sea/app/main.js
+			ASSETS_ROOT + 'tpl/intro.tpl'
+		], function(main, intro){
+			var words = 'hello world';
+			main.loadJson('#json', '/_ajax/json');
+			main.printText('#plugin-text', intro);
+			main.bodyFadeIn();
+			alert(words+'最后一个字符:' + main.Str.lastChar(words));
+		});
+		</script>
 		{% endblock %}
 
 4. 讲js 跟图片等资源放置在 assets目录下，并通过 {{ site }}/static/项目目录名/资源目录名/文件名 来指向。
