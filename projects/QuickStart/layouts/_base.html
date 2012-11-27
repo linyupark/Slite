@@ -5,22 +5,9 @@
         <title>{% block title %}{% endblock %}</title>
         <meta name="description" content="">
         <meta name="keywords" content="">
-        <script src="{{ static }}js/sea/sea.js" id="seajsnode"></script>
-        <script type="text/javascript">
-        ASSETS_ROOT = '{{ static }}';
-        seajs.config({
-            alias: {
-                'jquery': ASSETS_ROOT + 'js/vendor/jquery',
-                'coffee': ASSETS_ROOT + 'js/vendor/coffee',
-                'less': ASSETS_ROOT + 'js/vendor/less'
-            },
-            preload: [
-                'plugin-coffee',
-                'plugin-less',
-                'plugin-text'
-            ]
-        });
-        </script>
+        <script type="text/javascript">_g = { assets: '{{ static }}' };</script>
+        <script src="{{ static }}js/sea/sea.js" id="seajsnode" data-main="init"></script>
+        <script src="{{ static }}js/sea/init.js"></script>
         <!--[if lt IE 9]><script src="{{ static }}vendor/html5.js"></script><![endif]-->
         {% block head %}{% endblock %}
     </head>

@@ -22,16 +22,13 @@
 
 {% block bottom_js %}
 <script type="text/javascript">
-// 可以额外载入css, 执行define中的接口函数，以及引入模版文件
-seajs.use([
-	'app/main', // 引入 js/sea/app/main.js
-	ASSETS_ROOT + 'tpl/intro.tpl'
-], function(main, intro){
+//可以额外载入css, 执行define中的接口函数，以及引入模版文件
+seajs.use(['mod-main', _g.assets + 'tpl/intro.tpl'], function(main, intro){
 	var words = 'hello world';
 	main.loadJson('#json', '/_ajax/json');
 	main.printText('#plugin-text', intro);
 	main.bodyFadeIn();
-	alert(words+'最后一个字符:' + main.Str.lastChar(words));
+	console.log(words+'最后一个字符:' + main.Str.lastChar(words));
 });
 </script>
 {% endblock %}
