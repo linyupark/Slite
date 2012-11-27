@@ -12,7 +12,9 @@ define('#app/main', ['jquery', 'less-main', 'coffee-string', 'css-extra'], funct
 	var Str = require('coffee-string');
 	module.exports = {
 		loadJson: function(selector, url){
-			$(selector).load(url, { resp: '{ "username": "林小雨" }'});
+			$.get(url, { resp: '{ "username": "林小雨" }'}, function(resp){
+				$(selector).html(resp.username);
+			});
 		},
 		bodyFadeIn: function(){
 			$('body').animate({'opacity': 1}, 1500);
