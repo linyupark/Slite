@@ -212,4 +212,12 @@ main.js内容如下
 --------------------
 修改app.py中的ASSET_NAME值
 
+压缩js
+--------------------
+在Node.js环境下安装
 
+		npm install uglify-js@1 -g
+
+执行
+
+		$ uglifyjs --reserved-names require -o main-min.js main.js

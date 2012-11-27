@@ -6,7 +6,7 @@ seajs.config({
 	}
 });
 
-define('#app/main', ['jquery', 'less-main', 'coffee-string', 'css-extra'], function(require, exports, module) {
+define('app/main', ['jquery', 'less-main', 'coffee-string', 'css-extra'], function(require, exports, module) {
 	require(['less-main', 'css-extra']);
 	var $ = require('jquery');
 	var Str = require('coffee-string');
