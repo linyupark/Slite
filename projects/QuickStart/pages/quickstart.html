@@ -12,12 +12,18 @@
   <input type="file" name="data" />
   <input type="submit" value="upload" />
 </form>
-
+<hr>
 <h1>模拟Ajax请求</h1>
 <div id="json"></div>
-
+<hr>
+<h1>设置自定义参数</h1>
+<a href="?seajs-debug">开启本地js替换服务器端js调试功能</a>
+<br>
+<a href="?company=tcg">点击后显示（{{ req.get('company', '?') }}）</a>
+<hr>
 <h1>SeaJS的text插件</h1>
 <div id="plugin-text"></div>
+
 {% endblock %}
 
 {% block bottom_js %}
