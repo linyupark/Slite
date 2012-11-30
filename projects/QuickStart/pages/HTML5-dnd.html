@@ -1,0 +1,111 @@
+{% extends "_base" %} 
+
+{% block head %}
+<script type="text/javascript" src="{{ static }}js/vendor/modz.js">
+</script>
+<style type="text/css">
+[draggable] {
+-moz-user-select:none;
+-khtml-user-select:none;
+-webkit-user-select:none;
+user-select:none;
+}
+
+.column {
+height:150px;
+width:150px;
+float:left;
+border:2px solid #666;
+background-color:#ccc;
+margin-right:5px;
+text-align:center;
+cursor:move;
+}
+
+.column header {
+color:#fff;
+box-shadow:5px;
+padding:5px;
+}
+
+.column.over {
+border:2px dashed #000;
+}
+</style>
+{% endblock %}
+{% block body %}
+<h1>
+    HTML5 DND
+</h1>
+<div id="columns">
+    <div class="column" draggable="true">
+        <header>
+            A
+        </header>
+    </div>
+    <div class="column" draggable="true">
+        <header>
+            B
+        </header>
+    </div>
+    <div class="column" draggable="true">
+        <header>
+            C
+        </header>
+    </div>
+</div>
+<script type="text/javascript">
+var handleDragStart, handleDragOver, handleDragEnter, handleDragLeave, handleDrop, handleDragEnd;
+var dragEl = null;
+
+if(!Modernizr.draganddrop) {
+  alert('你的浏览器不支持HTML5的拖拽功能');
+}
+
+handleDragStart = function(e) {
+  this.style.opacity = 0.4;
+  dragEl = this;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/html', this.innerHTML);
+};
+handleDragOver = function(e) {
+  if(e.preventDefault) {
+    e.preventDefault();
+  }
+  e.dataTransfer.dropEffect = 'move';
+  return false;
+};
+handleDragEnter = function(e) {
+  this.classList.add('over');
+};
+handleDragLeave = function(e) {
+  this.classList.remove('over');
+};
+handleDrop = function(e) {
+  if(e.stopPropagation) {
+    e.stopPropagation();
+  }
+  if(dragEl !== this) {
+    dragEl.innerHTML = this.innerHTML;
+    this.innerHTML = e.dataTransfer.getData('text/html');
+  }
+  return false;
+};
+handleDragEnd = function(e) {
+  [].forEach.call(cols, function(col) {
+    col.classList.remove('over');
+    col.style.opacity = 1;
+  });
+};
+
+var cols = document.querySelectorAll('#columns .column');
+[].forEach.call(cols, function(col) {
+  col.addEventListener('dragstart', handleDragStart, false);
+  col.addEventListener('dragenter', handleDragEnter, false)
+  col.addEventListener('dragover', handleDragOver, false);
+  col.addEventListener('dragleave', handleDragLeave, false);
+  col.addEventListener('drop', handleDrop, false);
+  col.addEventListener('dragend', handleDragEnd, false);
+});
+</script>
+{% endblock %}

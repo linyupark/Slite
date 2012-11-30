@@ -126,7 +126,7 @@ def page(project, page):
     return jinja2_template(page, **context)
 
 
-run(slite, host='0.0.0.0', port=PORT, server='paste')
+run(slite, host='0.0.0.0', port=PORT, server='paste', debug=True)
 
 
 

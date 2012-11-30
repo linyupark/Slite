@@ -1,0 +1,118 @@
+{% extends "_base" %} 
+
+{% block head %}
+</script>
+<style type="text/css">
+#drop_zone {
+border:2px dashed #bbb;
+-moz-border-radius:5px;
+-webkit-border-radius:5px;
+border-radius:5px;
+padding:25px;
+text-align:center;
+font:20pt bold,Vollkorn;
+color:#bbb;
+}
+
+#drop_zone {
+border:2px dashed #bbb;
+-moz-border-radius:5px;
+-webkit-border-radius:5px;
+border-radius:5px;
+padding:25px;
+text-align:center;
+font:20pt bold,Vollkorn;
+color:#bbb;
+}
+#drop_zone.over{
+border:2px solid #bbb;
+}
+
+</style>
+{% endblock %}
+{% block body %}
+<h1>HTML5 FILE - 多文件选择</h1>
+<input type="file" id ="files" name="files[]", multiple />
+<output id="list"></output>
+
+<h1>文件拖拽上传</h1>
+<div id="drop_zone">将文件拖放到此处</div>
+<output id="list2"></output>
+
+
+<script type="text/javascript">
+seajs.use(['jquery'], function($) {
+  fileUploader = function(f) {
+    var data = new FormData();
+    data.append('data', f);
+    $.ajax({
+      url: '/_upload',
+      contentType: false,
+      processData: false,
+      type: 'POST',
+      dataType: 'json',
+      data: data
+    });
+  };
+
+  // 1
+  handleFileSelect = function(e) {
+    console.log('file changed!');
+    var files = e.target.files;
+    var output = [];
+    for(var i = 0, f; f = files[i]; i++) {
+      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ', f.size, ' bytes, last modified: ', f.lastModifiedDate.toLocaleDateString(), '</li>');
+    }
+    document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+  };
+
+  // 2
+  handleFileSelect2 = function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    this.classList.remove('over');
+    var files = e.dataTransfer.files;
+    var output = [];
+    for(var i = 0, f; f = files[i]; i++) {
+
+
+      // 图片则直接显示预览图
+      if(f.type.match('image.*')) {
+        var reader = new FileReader();
+        reader.onload = (function(theFile) {
+          return function(e) {
+            var span = document.createElement('span');
+            span.innerHTML = ['<img src="', e.target.result, '" width="100" />'].join('');
+            document.getElementById('list2').insertBefore(span, null);
+          };
+        })(f);
+        reader.readAsDataURL(f);
+        fileUploader(f);
+        continue;
+      }
+
+      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ', f.size, ' bytes, last modified: ', f.lastModifiedDate.toLocaleDateString(), '</li>');
+    }
+    document.getElementById('list2').innerHTML = '<ul>' + output.join('') + '</ul>';
+  }
+
+  handleDragOver = function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy'; // *
+    this.classList.add('over');
+  }
+
+  var dropZone = document.getElementById('drop_zone');
+  dropZone.addEventListener('dragover', handleDragOver, false);
+  dropZone.addEventListener('drop', handleFileSelect2, false);
+
+  if(window.File && window.FileReader && window.FileList && window.Blob) {
+    document.getElementById('files').addEventListener('change', handleFileSelect);
+  } else {
+    alert('你的浏览器不支持HTML5 File APIs.');
+  }
+});
+
+</script>
+{% endblock %}
