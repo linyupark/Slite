@@ -4,6 +4,8 @@ seajs.config({
         'jquery': _g.assets + 'js/vendor/jquery',
         'coffee': _g.assets + 'js/vendor/coffee',
         'less': _g.assets + 'js/vendor/less',
+        'validate': _g.assets + 'js/vendor/validate',
+        'slideshowify': _g.assets + 'js/vendor/jquery.slideshowify',
         // 其他资源
         'less-main': _g.assets + 'less/main.less',
         'coffee-string': _g.assets + 'coffee/string.coffee',

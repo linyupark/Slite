@@ -1,0 +1,25 @@
+{% extends "_base" %} 
+
+{% block body %}
+<div id="messagebox"></div>
+<form name="example_form" action="#" method="POST">
+  <label for="req">Required field:</label><input name="req" id="req" />
+  <br />
+  <label for="alphanumeric">Alphanumeric field:</label><input name="alphanumeric" id="alphanumeric" />
+  <br />
+  <label for="password">Password:</label><input name="password" id="password" type="password" /><br />
+  <label for="password_confirm">Password Confirmation (match password):</label><input name="password_confirm" id="password_confirm" type="password" /><br />
+  <label for="email">Email:</label><input name="email" id="email" /><br />
+  <label for="minlength">Min length field (min. 8 chars):</label><input name="minlength" id="minlength" />
+  <br />
+  <label for="tos_checkbox">Required checkbox (example: Terms of Service)</label>
+  <input name="tos_checkbox" id="tos_checkbox" type="checkbox" />
+  <br />
+  <button class="button gray" type="submit" name="submit">Submit</button>
+</form>
+<script type="text/javascript">
+seajs.use('modules/validate', function(valid){
+  valid.createValidate('example_form', '#messagebox', valid.rules_page1);
+});
+</script>
+{% endblock %}

@@ -1,6 +1,9 @@
 {
 	"pages_index": {
 		"quickstart.html": "快速开始",
-		"HTML5-dnd.html": "HTML5拖拽"
+		"HTML5-dnd.html": "HTML5拖拽",
+		"HTML5-file.html": "文件上传",
+		"KenBurnsEffect.html": "照片幻灯片",
+		"validate.html": "简易验证类"
 	}
 }

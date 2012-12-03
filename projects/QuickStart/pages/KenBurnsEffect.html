@@ -1,0 +1,47 @@
+{% extends "_base" %} 
+
+{% block head %}
+<style type="text/css">
+#target {
+background-color: black;
+position: relative;
+margin: 30px auto;
+width: 800px;
+height: 400px;
+border: 1px solid #ccc;
+z-index: 10;
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<div id="target"></div>
+<hr>
+<a href="https://github.com/airtonix/jquery.slideshowify.js">https://github.com/airtonix/jquery.slideshowify.js</a>
+<script type="text/javascript">
+seajs.use('slideshowify', function($){
+$.slideshowify({
+    dataUrl     : "http://www.gallerama.com/services/gallery/get.php?gid=2107&versions[]=9",
+    dataType    : "jsonp",
+    parentEl    : "#target",
+    randomize   : true,
+    aniSpeedMin : 6000,
+    aniSpeedMax : 10000,
+    filterFn    : function(imgs){ // filter data
+      var fixedImgs = [];
+      $.each(imgs, function(i, img){
+        fixedImgs.push($.extend(img.versions["9"], {id:img.id}));
+      });
+      console.log(fixedImgs);
+      return fixedImgs;
+    },
+    afterFadeIn : function(curImage){
+      // do something
+    },
+    beforeFadeOut : function(curImage){
+      // do something else
+    }
+  });
+});
+</script>
+{% endblock %}

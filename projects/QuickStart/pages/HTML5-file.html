@@ -45,14 +45,14 @@ seajs.use(['jquery'], function($) {
   fileUploader = function(f) {
     var data = new FormData();
     data.append('data', f);
-    $.ajax({
-      url: '/_upload',
-      contentType: false,
-      processData: false,
-      type: 'POST',
-      dataType: 'json',
-      data: data
-    });
+    // $.ajax({
+    //   url: '/_upload',
+    //   contentType: false,
+    //   processData: false,
+    //   type: 'POST',
+    //   dataType: 'json',
+    //   data: data
+    // });
   };
 
   // 1
