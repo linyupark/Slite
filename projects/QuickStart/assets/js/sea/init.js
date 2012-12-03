@@ -8,6 +8,7 @@ seajs.config({
         'slideshowify': _g.assets + 'js/vendor/jquery.slideshowify',
         // 其他资源
         'less-main': _g.assets + 'less/main.less',
+        'css-main': _g.assets + 'css/main.css',
         'coffee-string': _g.assets + 'coffee/string.coffee',
         'css-extra': _g.assets + 'css/extra.css',
         // 模块
@@ -15,11 +16,19 @@ seajs.config({
     },
     preload: [
         'plugin-coffee',
-        'plugin-less',
         'plugin-text'
     ]
 });
 
 define(function(require, exports, module){
-    require.async(['less-main', 'css-extra']);
+    try{
+        require('css-main');
+    } catch(err) {
+        seajs.config({
+            preload: ['plugin-less']
+        });
+        require.async(['less-main', 'css-extra']);
+    } finally {
+        require.async(['css-extra']);
+    }
 });
