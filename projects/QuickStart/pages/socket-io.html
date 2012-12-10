@@ -1,0 +1,30 @@
+{% extends "_base" %} 
+
+{% block head %}
+<script type="text/javascript" src="http://localhost:3000/socket.io/socket.io.js"></script>
+{% endblock %}
+{% block body %}
+<h2 id="a">请输入“开始”后回车...</h2>
+<input type="text" id="q" />
+
+<script type="text/javascript">
+seajs.use('jquery', function($){
+
+	var q = $('#q')
+	,	a = $('#a')
+	,	socket = io.connect('http://localhost:3000/');
+
+	q.keyup(function(ev){
+		if(ev.keyCode == 13){
+			console.log('发送q:'+q.val());
+			socket.emit('q', { q: q.val() });
+			socket.on('a', function(data){
+				console.log(data);
+				a.text(data.a);
+			});
+		}
+	});
+
+});
+</script>
+{% endblock %}

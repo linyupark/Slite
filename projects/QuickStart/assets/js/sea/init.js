@@ -17,7 +17,8 @@ seajs.config({
     preload: [
         'plugin-coffee',
         'plugin-text'
-    ]
+    ],
+    debug: false
 });
 
 define(function(require, exports, module){
